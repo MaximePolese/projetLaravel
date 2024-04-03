@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Shop>
@@ -18,6 +19,7 @@ class ShopFactory extends Factory
     public function definition(): array
     {
         return [
+            'id' => Str::uuid(),
             'shop_name' => fake()->company(),
             'shop_theme' => fake()->colorName(),
             'biography' => fake()->sentence(20),

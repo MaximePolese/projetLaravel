@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Cart>
@@ -18,6 +19,7 @@ class CartFactory extends Factory
     public function definition(): array
     {
         return [
+            'id' => Str::uuid(),
             'order_number' => fake()->unique()->randomNumber(10),
             'user_id' => DB::table('users')->inRandomOrder()->first()->id,
         ];
