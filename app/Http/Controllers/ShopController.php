@@ -12,9 +12,11 @@ class ShopController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): void
     {
-        //
+        foreach (Shop::all() as $shop) {
+            echo $shop->shop_name;
+        }
     }
 
     /**
