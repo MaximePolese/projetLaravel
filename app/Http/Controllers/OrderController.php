@@ -6,15 +6,17 @@ use App\Models\Order;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
+use Illuminate\Database\Eloquent\Collection;
+
 
 class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): Collection
     {
-        //
+        return Order::all();
     }
 
     /**
@@ -36,9 +38,9 @@ class OrderController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Order $order)
+    public function show(Order $order): Order
     {
-        //
+        return $order;
     }
 
     /**

@@ -6,17 +6,19 @@ use App\Models\Shop;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreShopRequest;
 use App\Http\Requests\UpdateShopRequest;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 
 class ShopController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(): void
+    public function index(): Collection
     {
-        foreach (Shop::all() as $shop) {
-            echo $shop->shop_name;
-        }
+        return Shop::all();
     }
 
     /**
@@ -30,17 +32,22 @@ class ShopController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreShopRequest $request)
+    public function store(StoreShopRequest $request): void
     {
-        //
+        $shop = new Shop();
+        $shop->shop_name = $request->shop_name;
+        $shop->shop_theme = $request->shop_theme;
+        $shop->biography = $request->biography;
+        $user = Auth::user();
+        $user->shops()->save($shop);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Shop $shop)
+    public function show(Shop $shop): Shop
     {
-        //
+        return $shop;
     }
 
     /**
@@ -54,16 +61,21 @@ class ShopController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateShopRequest $request, Shop $shop)
+    public function update(UpdateShopRequest $request, Shop $shop): void
     {
-        //
+        $shop = Shop::find($shop->id);
+        $shop->shop_name = $request->shop_name;
+        $shop->shop_theme = $request->shop_theme;
+        $shop->biography = $request->biography;
+        $shop->updated_at = now();
+        $shop->save();
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Shop $shop)
+    public function destroy(Shop $shop): void
     {
-        //
+        $shop->delete();
     }
 }

@@ -6,15 +6,17 @@ use App\Models\Product;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use Illuminate\Database\Eloquent\Collection;
+
 
 class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): Collection
     {
-        //
+        return Product::all();
     }
 
     /**
@@ -36,9 +38,9 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Product $product)
+    public function show(Product $product): Product
     {
-        //
+        return $product;
     }
 
     /**
@@ -60,8 +62,8 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy(Product $product): void
     {
-        //
+        $product->delete();
     }
 }

@@ -6,15 +6,17 @@ use App\Models\Cart;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCartRequest;
 use App\Http\Requests\UpdateCartRequest;
+use Illuminate\Database\Eloquent\Collection;
+
 
 class CartController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): Collection
     {
-        //
+        return Cart::all();
     }
 
     /**
@@ -36,9 +38,9 @@ class CartController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Cart $cart)
+    public function show(Cart $cart): Cart
     {
-        //
+        return $cart;
     }
 
     /**
