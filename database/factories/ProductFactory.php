@@ -19,7 +19,6 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
-            'id' => Str::uuid(),
             'product_name' => fake()->word(),
             'description' => fake()->sentence(20),
             'story' => fake()->sentence(10),

@@ -19,7 +19,6 @@ class CartFactory extends Factory
     public function definition(): array
     {
         return [
-            'id' => Str::uuid(),
             'order_number' => fake()->unique()->randomNumber(10),
             'user_id' => DB::table('users')->inRandomOrder()->first()->id,
         ];
