@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('category');
             $table->float('price');
             $table->integer('stock_quantity');
-            $table->foreignUuid('shop_id')->references('id')->on('shops');
+            $table->foreignUuid('shop_id')->references('id')->on('shops')->onDelete('cascade');
             $table->timestamps();
         });
     }

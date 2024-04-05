@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 
 
 class ProductController extends Controller
@@ -32,7 +33,19 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        //
+        $product = new Product();
+        $product->product_name = $request->product_name;
+        $product->description = $request->description;
+        $product->story = $request->story;
+        $product->image = $request->image;
+        $product->material = $request->material;
+        $product->color = $request->color;
+        $product->size = $request->size;
+        $product->category = $request->category;
+        $product->price = $request->price;
+        $product->stock_quantity = $request->stock_quantity;
+        $shop = Auth::user()->shops()->first();
+        $shop->products()->save($product);
     }
 
     /**

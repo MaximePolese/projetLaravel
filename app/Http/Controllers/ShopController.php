@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateShopRequest;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class ShopController extends Controller
@@ -61,9 +62,27 @@ class ShopController extends Controller
     /**
      * Update the specified resource in storage.
      */
+//    public function update(UpdateShopRequest $request, Shop $shop): void
+//    {
+//        if (Auth::check()) {
+//            $user = Auth::user();
+//
+//            if ($user->id !== $shop->user_id) {
+//                abort(403, 'Unauthorized action.');
+//            }
+//
+//            $shop->shop_name = $request->shop_name;
+//            $shop->shop_theme = $request->shop_theme;
+//            $shop->biography = $request->biography;
+//            $shop->updated_at = now();
+//            $shop->save();
+//        } else {
+//            abort(401, 'User is not authenticated.');
+//        }
+//    }
+
     public function update(UpdateShopRequest $request, Shop $shop): void
     {
-        $shop = Shop::find($shop->id);
         $shop->shop_name = $request->shop_name;
         $shop->shop_theme = $request->shop_theme;
         $shop->biography = $request->biography;

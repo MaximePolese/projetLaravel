@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('shop_theme');
             $table->string('biography');
             $table->timestamps();
-            $table->foreignUuid('user_id')->references('id')->on('users');
+            $table->foreignUuid('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
