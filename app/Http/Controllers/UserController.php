@@ -7,10 +7,9 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
+
 
 class UserController extends Controller
 {
@@ -33,17 +32,20 @@ class UserController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(UpdateUserRequest $request): RedirectResponse
+    public function update(UpdateUserRequest $request): User
     {
-        $request->user()->fill($request->validated());
+        $user = User::first();
+        Auth::login($user);
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        $user = $request->user()->fill($request->validated());
+
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
         }
 
-        $request->user()->save();
+        $user->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return $user;
     }
 
     /**

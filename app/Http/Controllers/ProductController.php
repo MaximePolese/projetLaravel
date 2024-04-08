@@ -8,6 +8,7 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Routing\ResponseFactory;
 use Illuminate\Support\Facades\Auth;
 
@@ -85,6 +86,56 @@ class ProductController extends Controller
         $product->updated_at = now();
         $product->save();
         return $product;
+    }
+
+    public function filterProducts(Request $request): Collection
+    {
+        $category = $request->input('category', null);
+        $color = $request->input('color', null);
+        $size = $request->input('size', null);
+        $material = $request->input('material', null);
+        $shop_id = $request->input('shop_id', null);
+
+        $query = Product::query();
+
+        if ($category) {
+            $query->where('category', $category);
+        }
+
+        if ($color) {
+            $query->where('color', $color);
+        }
+
+        if ($size) {
+            $query->where('size', $size);
+        }
+
+        if ($material) {
+            $query->where('material', $material);
+        }
+
+        if ($shop_id) {
+            $query->where('shop_id', $shop_id);
+        }
+
+        return $query->get();
+    }
+
+   public function sortBy(string $field, string $order = 'asc'): Collection
+{
+    $allowedFields = ['price', 'updated_at', 'stock_quantity'];
+    $allowedOrders = ['asc', 'desc'];
+
+    if (!in_array($field, $allowedFields) || !in_array($order, $allowedOrders)) {
+        throw new \InvalidArgumentException('Invalid field or order');
+    }
+
+    return Product::orderBy($field, $order)->get();
+}
+
+    public function searchByProductName($productName): Collection
+    {
+        return Product::where('product_name', 'like', '%' . $productName . '%')->get();
     }
 
     /**

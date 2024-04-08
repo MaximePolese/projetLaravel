@@ -14,6 +14,18 @@ class Product extends Model
     use HasUuids;
 
     protected $fillable = [
+        'product_name',
+        'description',
+        'story',
+        'image',
+        'material',
+        'color',
+        'size',
+        'category',
+        'price',
+        'stock_quantity',
+        'shop_id',
+        'updated_at'
     ];
 
     public function shops(): BelongsToMany

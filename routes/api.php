@@ -29,11 +29,14 @@ Route::post('/shops', [ShopController::class, 'store']);
 Route::put('/shops/{shop}', [ShopController::class, 'update']);
 Route::delete('/shops/{shop}', [ShopController::class, 'destroy']);
 
+Route::get('/products', [ProductController::class, 'sortBy']);
+Route::get('/products', [ProductController::class, 'filterProducts']);
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{product}', [ProductController::class, 'show']);
 Route::post('/products', [ProductController::class, 'store']);
 Route::put('/products/{product}', [ProductController::class, 'update']);
 Route::delete('/products/{product}', [ProductController::class, 'destroy']);
+
 
 Route::get('/orders', [OrderController::class, 'index']);
 Route::get('/orders/{order}', [OrderController::class, 'show']);
@@ -44,3 +47,4 @@ Route::delete('/orders/{order}', [OrderController::class, 'destroy']);
 Route::get('/users', [UserController::class, 'index']);
 Route::get('/users/{user}', [UserController::class, 'show']);
 Route::post('/register', [RegisteredUserController::class, 'store']);
+Route::put('/users/{user}', [UserController::class, 'update']);
