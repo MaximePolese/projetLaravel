@@ -10,4 +10,4 @@ Route::get('/', function () {
 //    return csrf_token();
 //});
 
-require __DIR__ . '/auth.php';
+//require __DIR__ . '/auth.php';

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShopController;
 use Illuminate\Http\Request;
@@ -33,8 +33,10 @@ Route::post('/products', [ProductController::class, 'store']);
 Route::put('/products/{product}', [ProductController::class, 'update']);
 Route::delete('/products/{product}', [ProductController::class, 'destroy']);
 
-Route::get('/carts', [CartController::class, 'index']);
-Route::get('/carts/{cart}', [CartController::class, 'show']);
-Route::post('/carts', [CartController::class, 'store']);
-Route::put('/carts/{cart}', [CartController::class, 'update']);
-Route::delete('/carts/{cart}', [CartController::class, 'destroy']);
+Route::get('/orders', [OrderController::class, 'index']);
+Route::get('/orders/{order}', [OrderController::class, 'show']);
+Route::post('/orders', [OrderController::class, 'store']);
+Route::put('/orders/{order}', [OrderController::class, 'update']);
+Route::delete('/orders/{order}', [OrderController::class, 'destroy']);
+
+require __DIR__ . '/auth.php';

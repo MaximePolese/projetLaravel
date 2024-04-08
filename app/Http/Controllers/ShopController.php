@@ -33,14 +33,16 @@ class ShopController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreShopRequest $request): void
+    public function store(StoreShopRequest $request): Shop
     {
         $shop = new Shop();
         $shop->shop_name = $request->shop_name;
         $shop->shop_theme = $request->shop_theme;
         $shop->biography = $request->biography;
-        $user = Auth::user();
-        $user->shops()->save($shop);
+        $shop->save();
+//        $user = Auth::user();
+//        $user->shops()->save($shop);
+        return $shop;
     }
 
     /**
@@ -62,39 +64,22 @@ class ShopController extends Controller
     /**
      * Update the specified resource in storage.
      */
-//    public function update(UpdateShopRequest $request, Shop $shop): void
-//    {
-//        if (Auth::check()) {
-//            $user = Auth::user();
-//
-//            if ($user->id !== $shop->user_id) {
-//                abort(403, 'Unauthorized action.');
-//            }
-//
-//            $shop->shop_name = $request->shop_name;
-//            $shop->shop_theme = $request->shop_theme;
-//            $shop->biography = $request->biography;
-//            $shop->updated_at = now();
-//            $shop->save();
-//        } else {
-//            abort(401, 'User is not authenticated.');
-//        }
-//    }
-
-    public function update(UpdateShopRequest $request, Shop $shop): void
+    public function update(UpdateShopRequest $request, Shop $shop): Shop
     {
         $shop->shop_name = $request->shop_name;
         $shop->shop_theme = $request->shop_theme;
         $shop->biography = $request->biography;
         $shop->updated_at = now();
         $shop->save();
+        return $shop;
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Shop $shop): void
+    public function destroy(Shop $shop): JsonResponse
     {
         $shop->delete();
+        return response()->json(['message' => 'Product deleted successfully.'], 200);
     }
 }

@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Order>
@@ -18,9 +19,8 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         return [
-            'product_id' => DB::table('products')->inRandomOrder()->first()->id,
-            'cart_id' => DB::table('carts')->inRandomOrder()->first()->id,
-            'quantity' => fake()->numberBetween(1, 10),
+            'order_number' => fake()->unique()->randomNumber(10),
+            'user_id' => DB::table('users')->inRandomOrder()->first()->id,
         ];
     }
 }

@@ -13,6 +13,13 @@ class Shop extends Model
     use HasFactory;
     use HasUuids;
 
+    protected $fillable = [
+        'shop_name',
+        'shop_theme',
+        'biography',
+        'user_id',
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

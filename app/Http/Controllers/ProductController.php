@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Routing\ResponseFactory;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -31,7 +33,7 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProductRequest $request)
+    public function store(StoreProductRequest $request): Product
     {
         $product = new Product();
         $product->product_name = $request->product_name;
@@ -46,6 +48,7 @@ class ProductController extends Controller
         $product->stock_quantity = $request->stock_quantity;
         $shop = Auth::user()->shops()->first();
         $shop->products()->save($product);
+        return $product;
     }
 
     /**
@@ -67,16 +70,29 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProductRequest $request, Product $product)
+    public function update(UpdateProductRequest $request, Product $product): Product
     {
-        //
+        $product->product_name = $request->product_name;
+        $product->description = $request->description;
+        $product->story = $request->story;
+        $product->image = $request->image;
+        $product->material = $request->material;
+        $product->color = $request->color;
+        $product->size = $request->size;
+        $product->category = $request->category;
+        $product->price = $request->price;
+        $product->stock_quantity = $request->stock_quantity;
+        $product->updated_at = now();
+        $product->save();
+        return $product;
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product): void
+    public function destroy(Product $product): JsonResponse
     {
         $product->delete();
+        return response()->json(['message' => 'Product deleted successfully.'], 200);
     }
 }
