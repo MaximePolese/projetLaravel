@@ -13,6 +13,9 @@ class Order extends Model
     use HasFactory;
     use HasUuids;
 
+    protected $fillable = [
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

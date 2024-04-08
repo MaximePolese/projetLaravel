@@ -39,7 +39,14 @@ class ShopController extends Controller
         $shop->shop_name = $request->shop_name;
         $shop->shop_theme = $request->shop_theme;
         $shop->biography = $request->biography;
+        $shop->user_id = $request->user_id;
+
+//        if (Auth::user()->id !== $shop->user_id) {
+//            abort(403, 'Unauthorized');
+//        }
+
         $shop->save();
+
 //        $user = Auth::user();
 //        $user->shops()->save($shop);
         return $shop;

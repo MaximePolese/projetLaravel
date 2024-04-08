@@ -13,6 +13,9 @@ class Product extends Model
     use HasFactory;
     use HasUuids;
 
+    protected $fillable = [
+    ];
+
     public function shops(): BelongsToMany
     {
         return $this->belongsToMany(Shop::class);
