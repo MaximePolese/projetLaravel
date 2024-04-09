@@ -16,7 +16,9 @@ use Illuminate\Support\Facades\Auth;
 class ProductController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Get a list of all products.
+     *
+     * @return Collection
      */
     public function index(): Collection
     {
@@ -28,11 +30,14 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        // not implemented
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created product in the database.
+     *
+     * @param StoreProductRequest $request
+     * @return Product
      */
     public function store(StoreProductRequest $request): Product
     {
@@ -44,7 +49,10 @@ class ProductController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified product.
+     *
+     * @param Product $product
+     * @return Product
      */
     public function show(Product $product): Product
     {
@@ -52,15 +60,21 @@ class ProductController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified product.
+     *
+     * @param Product $product
      */
     public function edit(Product $product)
     {
-        //
+        // not implemented
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified product in the database.
+     *
+     * @param UpdateProductRequest $request
+     * @param Product $product
+     * @return Product
      */
     public function update(UpdateProductRequest $request, Product $product): Product
     {
@@ -70,7 +84,10 @@ class ProductController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified product from the database.
+     *
+     * @param Product $product
+     * @return JsonResponse
      */
     public function destroy(Product $product): JsonResponse
     {
@@ -78,6 +95,12 @@ class ProductController extends Controller
         return response()->json(['message' => 'Product deleted successfully.'], 200);
     }
 
+    /**
+     * Filter products based on the provided parameters.
+     *
+     * @param Request $request
+     * @return Collection
+     */
     public function filterBy(Request $request): Collection
     {
         $params = $request->input();
@@ -88,6 +111,12 @@ class ProductController extends Controller
         return $query->get();
     }
 
+    /**
+     * Sort products based on the provided field and order.
+     *
+     * @param Request $request
+     * @return Collection
+     */
     public function sortBy(Request $request): Collection
     {
         $field = $request->input('field', null);
@@ -105,6 +134,12 @@ class ProductController extends Controller
         return Product::orderBy($field, $order)->get();
     }
 
+    /**
+     * Search for products based on the provided search term.
+     *
+     * @param Request $request
+     * @return Collection
+     */
     public function searchBy(Request $request): Collection
     {
         $searchTerm = $request->input('search_term', null);

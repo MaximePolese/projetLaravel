@@ -52,3 +52,5 @@ Route::delete('/users/{user}', [UserController::class, 'destroy']);
 
 //Route::middleware('auth')->group(function () {
 //});
+
+//require __DIR__ . '/auth.php';
