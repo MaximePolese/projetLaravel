@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UpdateShopRequest extends FormRequest
 {
@@ -11,6 +12,7 @@ class UpdateShopRequest extends FormRequest
      */
     public function authorize(): bool
     {
+//        return Auth::id() == $this->user()->id;
         return true;
     }
 
