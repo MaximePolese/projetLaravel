@@ -36,19 +36,9 @@ class ShopController extends Controller
     public function store(StoreShopRequest $request): Shop
     {
         $shop = new Shop();
-        $shop->shop_name = $request->shop_name;
-        $shop->shop_theme = $request->shop_theme;
-        $shop->biography = $request->biography;
-        $shop->user_id = $request->user_id;
-
-//        if (Auth::user()->id !== $shop->user_id) {
-//            abort(403, 'Unauthorized');
-//        }
-
-        $shop->save();
-
-//        $user = Auth::user();
-//        $user->shops()->save($shop);
+        $shop->fill($request->validated());
+        $user = Auth::user();
+        $user->shops()->save($shop);
         return $shop;
     }
 
@@ -73,10 +63,7 @@ class ShopController extends Controller
      */
     public function update(UpdateShopRequest $request, Shop $shop): Shop
     {
-        $shop->shop_name = $request->shop_name;
-        $shop->shop_theme = $request->shop_theme;
-        $shop->biography = $request->biography;
-        $shop->updated_at = now();
+        $shop->fill($request->validated());
         $shop->save();
         return $shop;
     }

@@ -31,6 +31,7 @@ Route::delete('/shops/{shop}', [ShopController::class, 'destroy']);
 
 Route::get('/products/sort', [ProductController::class, 'sortBy']);
 Route::get('/products/filter', [ProductController::class, 'filterBy']);
+Route::get('/products/search', [ProductController::class, 'searchBy']);
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{product}', [ProductController::class, 'show']);
 Route::post('/products', [ProductController::class, 'store']);
@@ -47,3 +48,7 @@ Route::get('/users', [UserController::class, 'index']);
 Route::get('/users/{user}', [UserController::class, 'show']);
 Route::post('/register', [RegisteredUserController::class, 'store']);
 Route::put('/users/{user}', [UserController::class, 'update']);
+Route::delete('/users/{user}', [UserController::class, 'destroy']);
+
+//Route::middleware('auth')->group(function () {
+//});

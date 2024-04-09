@@ -37,17 +37,8 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request): Product
     {
         $product = new Product();
-        $product->product_name = $request->product_name;
-        $product->description = $request->description;
-        $product->story = $request->story;
-        $product->image = $request->image;
-        $product->material = $request->material;
-        $product->color = $request->color;
-        $product->size = $request->size;
-        $product->category = $request->category;
-        $product->price = $request->price;
-        $product->stock_quantity = $request->stock_quantity;
-        $shop = Auth::user()->shops()->first();
+        $product->fill($request->validated());
+        $shop = Auth::user()->shops()->find($request->shop_id);
         $shop->products()->save($product);
         return $product;
     }
@@ -73,58 +64,25 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product): Product
     {
-        $product->product_name = $request->product_name;
-        $product->description = $request->description;
-        $product->story = $request->story;
-        $product->image = $request->image;
-        $product->material = $request->material;
-        $product->color = $request->color;
-        $product->size = $request->size;
-        $product->category = $request->category;
-        $product->price = $request->price;
-        $product->stock_quantity = $request->stock_quantity;
-        $product->updated_at = now();
+        $product->fill($request->validated());
         $product->save();
         return $product;
     }
 
     public function filterBy(Request $request): Collection
     {
-        $category = $request->input('category', null);
-        $color = $request->input('color', null);
-        $size = $request->input('size', null);
-        $material = $request->input('material', null);
-        $shop_id = $request->input('shop_id', null);
-
+        $params = $request->input();
         $query = Product::query();
-
-        if ($category) {
-            $query->where('category', $category);
+        foreach ($params as $key => $value) {
+            $query->where($key, $value);
         }
-
-        if ($color) {
-            $query->where('color', $color);
-        }
-
-        if ($size) {
-            $query->where('size', $size);
-        }
-
-        if ($material) {
-            $query->where('material', $material);
-        }
-
-        if ($shop_id) {
-            $query->where('shop_id', $shop_id);
-        }
-
         return $query->get();
     }
 
     public function sortBy(Request $request): Collection
     {
-        $field = $request->input('field', 'price'); // Default to 'price' if no field is provided
-        $order = $request->input('order', 'asc'); // Default to 'asc' if no order is provided
+        $field = $request->input('field', null);
+        $order = $request->input('order', null);
 
         // Validate the field and order
         $allowedFields = ['price', 'updated_at', 'stock_quantity'];
@@ -138,9 +96,29 @@ class ProductController extends Controller
         return Product::orderBy($field, $order)->get();
     }
 
-    public function searchByProductName($productName): Collection
+    public function searchBy(Request $request): Collection
     {
-        return Product::where('product_name', 'like', '%' . $productName . '%')->get();
+        $searchTerm = $request->input('search_term', null);
+
+        $query = Product::query();
+
+        if ($searchTerm) {
+            $fields = [
+                'product_name',
+                'description',
+                'story',
+                'material',
+                'color',
+                'size',
+                'category',
+            ];
+
+            foreach ($fields as $field) {
+                $query->orWhere($field, 'like', '%' . $searchTerm . '%');
+            }
+        }
+
+        return $query->get();
     }
 
     /**

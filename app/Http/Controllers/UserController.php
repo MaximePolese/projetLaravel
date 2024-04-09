@@ -34,9 +34,6 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request): User
     {
-        $user = User::first();
-        Auth::login($user);
-
         $user = $request->user()->fill($request->validated());
 
         if ($user->isDirty('email')) {
@@ -44,7 +41,6 @@ class UserController extends Controller
         }
 
         $user->save();
-
         return $user;
     }
 
@@ -60,9 +56,7 @@ class UserController extends Controller
         $user = $request->user();
 
         Auth::logout();
-
         $user->delete();
-
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

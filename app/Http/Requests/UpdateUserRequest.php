@@ -24,9 +24,42 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'pseudo' => ['string', 'max:255'],
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
+            'address' => ['string', 'max:255'],
+            'phone_number' => ['string', 'max:255'],
+            'image' => ['string', 'max:255'],
+            'delivery_address' => ['string', 'max:255'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'pseudo.string' => 'Le pseudo doit être une chaîne de caractères.',
+            'pseudo.max' => 'Le pseudo ne doit pas dépasser 255 caractères.',
+            'first_name.required' => 'Le prénom est obligatoire.',
+            'first_name.string' => 'Le prénom doit être une chaîne de caractères.',
+            'first_name.max' => 'Le prénom ne doit pas dépasser 255 caractères.',
+            'last_name.required' => 'Le nom de famille est obligatoire.',
+            'last_name.string' => 'Le nom de famille doit être une chaîne de caractères.',
+            'last_name.max' => 'Le nom de famille ne doit pas dépasser 255 caractères.',
+            'email.required' => 'L\'email est obligatoire.',
+            'email.string' => 'L\'email doit être une chaîne de caractères.',
+            'email.lowercase' => 'L\'email doit être en minuscules.',
+            'email.email' => 'L\'email doit être une adresse email valide.',
+            'email.max' => 'L\'email ne doit pas dépasser 255 caractères.',
+            'email.unique' => 'L\'email doit être unique.',
+            'address.string' => 'L\'adresse doit être une chaîne de caractères.',
+            'address.max' => 'L\'adresse ne doit pas dépasser 255 caractères.',
+            'phone_number.string' => 'Le numéro de téléphone doit être une chaîne de caractères.',
+            'phone_number.max' => 'Le numéro de téléphone ne doit pas dépasser 255 caractères.',
+            'image.string' => 'L\'image doit être une chaîne de caractères.',
+            'image.max' => 'L\'image ne doit pas dépasser 255 caractères.',
+            'delivery_address.string' => 'L\'adresse de livraison doit être une chaîne de caractères.',
+            'delivery_address.max' => 'L\'adresse de livraison ne doit pas dépasser 255 caractères.',
         ];
     }
 }
