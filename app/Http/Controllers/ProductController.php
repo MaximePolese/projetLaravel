@@ -69,6 +69,15 @@ class ProductController extends Controller
         return $product;
     }
 
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Product $product): JsonResponse
+    {
+        $product->delete();
+        return response()->json(['message' => 'Product deleted successfully.'], 200);
+    }
+
     public function filterBy(Request $request): Collection
     {
         $params = $request->input();
@@ -119,14 +128,5 @@ class ProductController extends Controller
         }
 
         return $query->get();
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Product $product): JsonResponse
-    {
-        $product->delete();
-        return response()->json(['message' => 'Product deleted successfully.'], 200);
     }
 }

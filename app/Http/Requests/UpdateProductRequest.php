@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Product;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,7 +13,9 @@ class UpdateProductRequest extends FormRequest
      */
     public function authorize(): bool
     {
-//        return Auth::id() == $this->user()->id;
+//        $productId = $this->route('product');
+//        $product = Product::find($productId);
+//        return Auth::id() == $product->shop->user_id;
         return true;
     }
 
