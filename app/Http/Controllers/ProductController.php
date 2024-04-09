@@ -88,7 +88,7 @@ class ProductController extends Controller
         return $product;
     }
 
-    public function filterProducts(Request $request): Collection
+    public function filterBy(Request $request): Collection
     {
         $category = $request->input('category', null);
         $color = $request->input('color', null);
@@ -121,17 +121,22 @@ class ProductController extends Controller
         return $query->get();
     }
 
-   public function sortBy(string $field, string $order = 'asc'): Collection
-{
-    $allowedFields = ['price', 'updated_at', 'stock_quantity'];
-    $allowedOrders = ['asc', 'desc'];
+    public function sortBy(Request $request): Collection
+    {
+        $field = $request->input('field', 'price'); // Default to 'price' if no field is provided
+        $order = $request->input('order', 'asc'); // Default to 'asc' if no order is provided
 
-    if (!in_array($field, $allowedFields) || !in_array($order, $allowedOrders)) {
-        throw new \InvalidArgumentException('Invalid field or order');
+        // Validate the field and order
+        $allowedFields = ['price', 'updated_at', 'stock_quantity'];
+        $allowedOrders = ['asc', 'desc'];
+
+        if (!in_array($field, $allowedFields) || !in_array($order, $allowedOrders)) {
+            // You can choose to handle this error however you like
+            throw new \InvalidArgumentException('Invalid field or order');
+        }
+
+        return Product::orderBy($field, $order)->get();
     }
-
-    return Product::orderBy($field, $order)->get();
-}
 
     public function searchByProductName($productName): Collection
     {
