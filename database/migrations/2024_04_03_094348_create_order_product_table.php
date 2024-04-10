@@ -15,6 +15,8 @@ return new class extends Migration
             $table->foreignUuid('product_id')->references('id')->on('products');
             $table->foreignUuid('order_id')->references('id')->on('orders');
             $table->integer('quantity');
+            $table->float('price');
+            $table->timestamps();
         });
     }
 

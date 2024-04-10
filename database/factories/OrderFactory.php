@@ -19,7 +19,7 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         return [
-            'order_number' => fake()->unique()->randomNumber(10),
+            'status' => fake()->randomElement(['pending', 'processing', 'completed']),
             'user_id' => DB::table('users')->inRandomOrder()->first()->id,
         ];
     }

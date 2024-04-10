@@ -17,10 +17,12 @@ class OrderProductFactory extends Factory
      */
     public function definition(): array
     {
+        $product = DB::table('products')->inRandomOrder()->first();
         return [
-            'product_id' => DB::table('products')->inRandomOrder()->first()->id,
+            'product_id' => $product->id,
             'order_id' => DB::table('orders')->inRandomOrder()->first()->id,
             'quantity' => fake()->numberBetween(1, 10),
+            'price' => $product->price,
         ];
     }
 }

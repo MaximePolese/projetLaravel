@@ -6,7 +6,10 @@ use App\Models\Order;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 
 class OrderController extends Controller
@@ -30,9 +33,13 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreOrderRequest $request)
+    public function store(StoreOrderRequest $request): Order
     {
         $order = new Order();
+        $order->status = "pending";
+        $user = User::all()->first();
+        $user->orders()->save($order);
+        return $order;
     }
 
     /**
@@ -56,14 +63,17 @@ class OrderController extends Controller
      */
     public function update(UpdateOrderRequest $request, Order $order)
     {
-        //
+        $order->fill($request->validated());
+        $order->save();
+        return $order;
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Order $order)
+    public function destroy(Order $order): JsonResponse
     {
-        //
+        $order->delete();
+        return response()->json(['message' => 'Order deleted successfully.'], 200);
     }
 }
