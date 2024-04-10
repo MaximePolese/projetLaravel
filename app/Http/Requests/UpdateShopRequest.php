@@ -4,7 +4,9 @@ namespace App\Http\Requests;
 
 use App\Models\Shop;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class UpdateShopRequest extends FormRequest
 {
@@ -31,6 +33,11 @@ class UpdateShopRequest extends FormRequest
             'shop_theme' => ['nullable', 'string', 'max:255'],
             'biography' => ['nullable', 'string', 'max:5000'],
         ];
+    }
+
+    protected function failedValidation(Validator|\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        throw new HttpResponseException(response()->json($validator->errors(), 400));
     }
 
     public function messages(): array

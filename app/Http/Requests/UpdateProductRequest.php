@@ -4,7 +4,9 @@ namespace App\Http\Requests;
 
 use App\Models\Product;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class UpdateProductRequest extends FormRequest
 {
@@ -39,6 +41,11 @@ class UpdateProductRequest extends FormRequest
             'stock_quantity' => ['required', 'integer', 'min:0'],
             'updated_at' => ['date'],
         ];
+    }
+
+    protected function failedValidation(Validator|\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        throw new HttpResponseException(response()->json($validator->errors(), 400));
     }
 
     public function messages(): array

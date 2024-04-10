@@ -33,13 +33,13 @@ class ShopController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreShopRequest $request): Shop
+    public function store(StoreShopRequest $request): JsonResponse
     {
         $shop = new Shop();
         $shop->fill($request->validated());
         $user = Auth::user();
         $user->shops()->save($shop);
-        return $shop;
+        return response()->json($shop, 201);
     }
 
     /**
@@ -61,11 +61,11 @@ class ShopController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateShopRequest $request, Shop $shop): Shop
+    public function update(UpdateShopRequest $request, Shop $shop): JsonResponse
     {
         $shop->fill($request->validated());
         $shop->save();
-        return $shop;
+        return response()->json($shop, 200);
     }
 
     /**
